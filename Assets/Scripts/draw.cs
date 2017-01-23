@@ -7,35 +7,25 @@ public class draw : MonoBehaviour {
 
     void Start()
     {
-        Vector3[] initLaserPositions = new Vector3[2] { Vector3.zero, Vector3.zero };
-        laser.SetPositions(initLaserPositions);
-        laser.SetWidth(0.01f, 0.01f);
     }
 
     void Update()
     {
-        Vector3 v = GvrController.Orientation * Vector3.forward;
+        Vector3 direction = GvrController.Orientation * Vector3.forward;
 
-        ShootLaserFromTargetPosition(transform.position, v, 200f);
-        laser.enabled = true;
-    }
-
-    void ShootLaserFromTargetPosition(Vector3 targetPosition, Vector3 direction, float length)
-    {
-        Ray ray = new Ray(targetPosition, direction);
+        Ray ray = new Ray(transform.position, direction);
         RaycastHit raycastHit;
-        if( Physics.Raycast(ray, out raycastHit, length))
+
+        if (Physics.Raycast(ray, out raycastHit, 200f) && raycastHit.transform.gameObject.name.Equals("WhiteBoard"))
         {
             Vector3 position = raycastHit.point;
-            print(position.ToString());
-            if(GvrController.IsTouching)
+            position = new Vector3(position.x, position.y, position.z - 0.5f);
+
+            if (GvrController.IsTouching)
             {
-                Instantiate(painter, position, Quaternion.identity);
+                Instantiate(painter, position, painter.transform.rotation);
+                print(position.ToString());
             }
         }
-
-        Vector3 endPosition = targetPosition + (length * direction);
-        laser.SetPosition(0, targetPosition);
-        laser.SetPosition(1, endPosition);
     }
 }
