@@ -32,7 +32,7 @@ public class GvrLaserPointer : GvrBasePointer {
   /// Size of the reticle in meters as seen from 1 meter.
   private const float RETICLE_SIZE = 0.01f;
 
-  private LineRenderer lineRenderer;
+  public LineRenderer lineRenderer;
   private bool isPointerIntersecting;
   private Vector3 pointerIntersection;
   private Ray pointerIntersectionRay;
@@ -107,6 +107,8 @@ public class GvrLaserPointer : GvrBasePointer {
       Ray intersectionRay, bool isInteractive) {
     pointerIntersection = intersectionPosition;
     pointerIntersectionRay = intersectionRay;
+	print("sadsadasd");
+	Debug.Log ("asdasdad" + pointerIntersection.ToString());
   }
 
   public override void OnPointerExit(GameObject targetObject) {
